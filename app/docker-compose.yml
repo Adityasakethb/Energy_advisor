@@ -1,0 +1,9 @@
+services:
+  echowatt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: echowatt-app
+    ports:
+      - "8104:8104"
+    restart: always

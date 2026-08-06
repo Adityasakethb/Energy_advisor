@@ -1,0 +1,11 @@
+# Logs & caches
+*.log
+.DS_Store
+
+# Node / App dependencies & dist
+app/node_modules/
+app/dist/
+
+# IDE / System
+.vscode/
+.idea/
