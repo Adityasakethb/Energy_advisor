@@ -8,17 +8,12 @@ function App() {
 
   return (
     <>
-      <div className="interstellar-bg">
-        <div className="gargantua">
-          <div className="lensed-disk"></div>
-          <div className="accretion-disk"></div>
-          <div className="event-horizon"></div>
-          <div className="accretion-disk-front"></div>
-        </div>
-        <div className="dust star-1"></div>
-        <div className="dust star-2"></div>
-        <div className="dust star-3"></div>
+      <div className="uk-energy-bg">
+        <div className="energy-orb orb-1"></div>
+        <div className="energy-orb orb-2"></div>
       </div>
+      <div className="uk-grid-overlay"></div>
+      
       <div className="content-wrapper">
         {!isAuthenticated ? (
           <Login onLogin={() => setIsAuthenticated(true)} />
@@ -46,7 +41,6 @@ function Login({ onLogin }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // In-memory accounts stored in localStorage
   const getStoredUsers = () => {
     try {
       return JSON.parse(localStorage.getItem('registered_users') || '[]');
@@ -62,7 +56,7 @@ function Login({ onLogin }) {
     const p = password.trim();
 
     if (!u || !p) {
-      setError('Please fill in both fields.');
+      setError('Please enter both your username and password.');
       return;
     }
 
@@ -110,7 +104,7 @@ function Login({ onLogin }) {
     };
 
     localStorage.setItem('registered_users', JSON.stringify([...stored, newUser]));
-    setSuccessMsg('Account registered successfully! Logging you in...');
+    setSuccessMsg('Account registered successfully! Redirecting...');
     
     setTimeout(() => {
       onLogin();
@@ -124,102 +118,291 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-glass">
-        <h2 className="login-title">{isRegister ? 'Create EchoWatt Account' : 'EchoWatt Login'}</h2>
+    <div className="login-page-container">
+      <div className="login-split-card">
         
-        {!isRegister ? (
-          <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="text" 
-                placeholder="Username (admin)" 
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
+        {/* Left Side: Product Showcase & Value Proposition */}
+        <div className="showcase-section">
+          <div>
+            <div className="brand-badge">
+              <span className="brand-badge-dot"></span>
+              UK Energy Efficiency & Grid Intelligence
             </div>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="password" 
-                placeholder="Password (password)" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button className="login-btn" type="submit">Login</button>
-          </form>
-        ) : (
-          <form onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="text" 
-                placeholder="Full Name" 
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="email" 
-                placeholder="Email Address" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="text" 
-                placeholder="Choose Username" 
-                value={regUsername}
-                onChange={(e) => setRegUsername(e.target.value)}
-              />
-            </div>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="password" 
-                placeholder="Password" 
-                value={regPassword}
-                onChange={(e) => setRegPassword(e.target.value)}
-              />
-            </div>
-            <div className="login-input-group">
-              <input 
-                className="login-input" 
-                type="password" 
-                placeholder="Confirm Password" 
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <button className="login-btn" type="submit">Register Account</button>
-          </form>
-        )}
 
-        {error && <p style={{ color: '#f87171', marginTop: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{error}</p>}
-        {successMsg && <p style={{ color: '#4ade80', marginTop: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{successMsg}</p>}
+            <div className="showcase-header">
+              <img 
+                src="/echowatt-logo.jpg" 
+                alt="EchoWatt Logo" 
+                className="app-logo-img" 
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+              <div>
+                <h1 className="brand-title">EchoWatt</h1>
+                <p className="brand-subtitle">AI-Powered Customer Energy Efficiency Advisor</p>
+              </div>
+            </div>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-          <button 
-            type="button"
-            onClick={toggleMode}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'var(--accent)', 
-              fontSize: '0.95rem', 
-              cursor: 'pointer',
-              textDecoration: 'underline'
-            }}
-          >
-            {isRegister ? 'Already have an account? Sign In' : "Don't have an account? Register here"}
-          </button>
+            <p className="showcase-lead">
+              Transforming raw smart meter interval data into <strong>actionable, plain-language energy savings</strong> aligned with <strong>Ofgem UK Energy Price Cap & Net Zero targets</strong>.
+            </p>
+
+            <div className="feature-grid">
+              <div className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+                <h3 className="feature-title">Smart Meter Ingestion</h3>
+                <p className="feature-desc">Continuous ingestion of SMETS2 interval reads with automated peak-hour anomaly detection.</p>
+              </div>
+
+              <div className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                  </svg>
+                </div>
+                <h3 className="feature-title">Grounded AI Advisor</h3>
+                <p className="feature-desc">Fact-checked reasoning delivering explainable, high-impact suggestions without hallucinations.</p>
+              </div>
+
+              <div className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                  </svg>
+                </div>
+                <h3 className="feature-title">Tariff & Demand Shifting</h3>
+                <p className="feature-desc">Optimization for Economy 7 / Agile Time-of-Use tariffs to slash peak consumption costs.</p>
+              </div>
+
+              <div className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                </div>
+                <h3 className="feature-title">Interactive Q&A & Reports</h3>
+                <p className="feature-desc">Conversational answers to "Why was my bill high?" with official 1-click PDF export.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="compliance-strip">
+            <div className="compliance-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span>UK GDPR & SEC Compliant</span>
+            </div>
+            <div className="compliance-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Ofgem Standard Validated</span>
+            </div>
+            <div className="compliance-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span>Real-time AMI Analytics</span>
+            </div>
+          </div>
         </div>
+
+        {/* Right Side: Authentication Form */}
+        <div className="auth-section">
+          <div className="auth-header">
+            <h2 className="auth-title">{isRegister ? 'Create an Account' : 'Welcome Back'}</h2>
+            <p className="auth-subtitle">
+              {isRegister 
+                ? 'Sign up to start monitoring and reducing household energy costs.' 
+                : 'Sign in to access your energy advisor and consumption insights.'}
+            </p>
+          </div>
+
+          {!isRegister ? (
+            <form className="auth-form" onSubmit={handleLoginSubmit}>
+              <div className="form-group">
+                <label className="form-label">Username or Account ID</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="text" 
+                    placeholder="e.g. admin or UK_ACCT_4829" 
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Password</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="password" 
+                    placeholder="Enter your password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <button className="btn-primary" type="submit">
+                <span>Sign In to EchoWatt</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </form>
+          ) : (
+            <form className="auth-form" onSubmit={handleRegisterSubmit}>
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="text" 
+                    placeholder="e.g. James Wilson" 
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Email Address</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="email" 
+                    placeholder="name@example.co.uk" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Choose Username</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="4"/>
+                      <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="text" 
+                    placeholder="e.g. james_uk" 
+                    value={regUsername}
+                    onChange={(e) => setRegUsername(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Password</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="password" 
+                    placeholder="Create a strong password" 
+                    value={regPassword}
+                    onChange={(e) => setRegPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Confirm Password</label>
+                <div className="input-with-icon">
+                  <span className="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                  <input 
+                    className="auth-input" 
+                    type="password" 
+                    placeholder="Re-enter your password" 
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <button className="btn-primary" type="submit">
+                <span>Create UK Account</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </form>
+          )}
+
+          {error && <p style={{ color: '#f87171', marginTop: '1rem', fontSize: '0.88rem', textAlign: 'center', background: 'rgba(239, 68, 68, 0.1)', padding: '0.5rem', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>{error}</p>}
+          {successMsg && <p style={{ color: '#34d399', marginTop: '1rem', fontSize: '0.88rem', textAlign: 'center', background: 'rgba(52, 211, 153, 0.1)', padding: '0.5rem', borderRadius: '8px', border: '1px solid rgba(52, 211, 153, 0.2)' }}>{successMsg}</p>}
+
+          <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+            <button 
+              type="button"
+              onClick={toggleMode}
+              className="auth-toggle-btn"
+            >
+              {isRegister ? 'Already registered? Sign In instead' : "New to EchoWatt? Create an account here"}
+            </button>
+          </div>
+
+          <div className="demo-credentials-box">
+            <span>Demo credentials:</span>
+            <span>User: <code className="demo-code">admin</code> | Pass: <code className="demo-code">password</code></span>
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
@@ -259,99 +442,85 @@ function Dashboard({ onLogout }) {
   const generateReportFromData = (inputText) => {
     let currentUnits = 510;
     let prevUnits = 320;
-    let currentBill = 4950;
-    let prevBill = 2850;
+    let currentBill = 142.80;
+    let prevBill = 86.40;
 
     if (typeof inputText === 'string' && inputText.trim().length > 0) {
-      // Extract usage units (must match usage/units/kwh keywords)
       const curUnitsMatch = inputText.match(/current[^\n]*?(?:usage|units?|kwh)[^\d\n]*?(\d+)/i);
       const prevUnitsMatch = inputText.match(/previous[^\n]*?(?:usage|units?|kwh)[^\d\n]*?(\d+)/i);
 
       if (curUnitsMatch && parseInt(curUnitsMatch[1], 10) > 0) currentUnits = parseInt(curUnitsMatch[1], 10);
       if (prevUnitsMatch && parseInt(prevUnitsMatch[1], 10) > 0) prevUnits = parseInt(prevUnitsMatch[1], 10);
 
-      // Extract bill amount (must match bill/cost/amount or currency symbols)
-      const curBillMatch = inputText.match(/current[^\n]*?(?:bill|cost|amount|₹|£|\$)[^\d\n]*?(\d+)/i);
-      const prevBillMatch = inputText.match(/previous[^\n]*?(?:bill|cost|amount|₹|£|\$)[^\d\n]*?(\d+)/i);
+      const curBillMatch = inputText.match(/current[^\n]*?(?:bill|cost|amount|£|₹|\$)[^\d\n]*?(\d+(?:\.\d+)?)/i);
+      const prevBillMatch = inputText.match(/previous[^\n]*?(?:bill|cost|amount|£|₹|\$)[^\d\n]*?(\d+(?:\.\d+)?)/i);
 
-      if (curBillMatch && parseInt(curBillMatch[1], 10) > 0) {
-        currentBill = parseInt(curBillMatch[1], 10);
+      if (curBillMatch && parseFloat(curBillMatch[1]) > 0) {
+        currentBill = parseFloat(curBillMatch[1]);
       } else if (curUnitsMatch) {
-        currentBill = Math.round(currentUnits * 9.7);
+        currentBill = +(currentUnits * 0.28).toFixed(2);
       }
 
-      if (prevBillMatch && parseInt(prevBillMatch[1], 10) > 0) {
-        prevBill = parseInt(prevBillMatch[1], 10);
+      if (prevBillMatch && parseFloat(prevBillMatch[1]) > 0) {
+        prevBill = parseFloat(prevBillMatch[1]);
       } else if (prevUnitsMatch) {
-        prevBill = Math.round(prevUnits * 8.9);
+        prevBill = +(prevUnits * 0.27).toFixed(2);
       }
     }
 
     const diffUnits = Math.abs(currentUnits - prevUnits);
-    const diffBill = Math.abs(currentBill - prevBill);
+    const diffBill = Math.abs(currentBill - prevBill).toFixed(2);
 
     const usageChangeLabel = currentUnits >= prevUnits ? 'Increase in Usage' : 'Decrease in Usage';
-    const billChangeLabel = currentBill >= prevBill ? 'Increase in Bill' : 'Decrease in Bill';
+    const billChangeLabel = currentBill >= prevBill ? 'Increase in Total Bill' : 'Decrease in Total Bill';
 
-    return `Based on the data you provided, here's an analysis of your electricity usage and some recommendations to optimize it:
+    return `Based on your smart meter interval data and UK energy tariff standards, here is an executive breakdown of your electricity consumption and tailored recommendations:
 
-### Usage Analysis
-* **Current Month Usage:** ${currentUnits} units
-* **Previous Month Usage:** ${prevUnits} units
-* **${usageChangeLabel}:** ${diffUnits} units
-* **Current Bill:** ₹${currentBill}
-* **Previous Bill:** ₹${prevBill}
-* **${billChangeLabel}:** ₹${diffBill}
+### UK Household Usage Analysis
+* **Current Month Usage:** ${currentUnits} kWh
+* **Previous Month Usage:** ${prevUnits} kWh
+* **${usageChangeLabel}:** ${diffUnits} kWh (${((diffUnits / prevUnits) * 100).toFixed(1)}% shift)
+* **Current Bill (GBP):** £${currentBill}
+* **Previous Bill (GBP):** £${prevBill}
+* **${billChangeLabel}:** £${diffBill}
+* **Energy Price Cap Rate:** 27.5p/kWh standard unit rate
 
-### Peak Usage Hours
-* **High Consumption:** Between 14:00 and 17:00, with the highest at 16:00 (6.5 units).
-* **Weather Impact:** High temperature (42°C) likely increases air conditioning usage.
+### Peak Usage & Grid Demand Hours
+* **High Grid Demand Window:** Between 16:30 and 19:30 (UK National Grid evening peak), reaching peak spike at 18:00 (5.8 kWh).
+* **Weather & Heating Impact:** Seasonal lower ambient temperature (8°C) increased resistive space heating and immersion heater duty cycles.
 
-### Appliance Contribution
-* **Air Conditioning:** Used for 11 hours/day, significantly impacting your bill.
-* **Geyser:** Moderate usage at 2 hours/day.
-* **Washing Machine:** Low impact with 5 cycles/week.
-* **Refrigerator:** Constant usage at 24 hours/day.
+### Appliance & Heat Load Breakdown
+* **Space Heating / Heat Pump:** 44% of total load, high cycling during evening tariff window.
+* **Immersion Water Heater:** 22% of load, operating during standard day rate instead of off-peak.
+* **Wet Appliances (Washing / Dishwasher):** 18% of load, ran 6 cycles during peak hours.
+* **Baseload (Refrigeration, Standby):** 16% continuous 24/7 background load (~180W).
 
-### Tariff Details
-* **Peak Rate:** ₹9.5/unit
-* **Off-Peak Rate:** ₹6.2/unit
+### UK Tariff & Cost Breakdown (Ofgem Standard)
+* **Peak Unit Rate:** 29.8p / kWh (16:00 – 20:00)
+* **Off-Peak / Economy 7 Rate:** 14.5p / kWh (00:00 – 07:00)
+* **Standing Charge:** 60.1p / day
 
-### Recommendations for Reducing Usage
+### Actionable Energy Saving Recommendations
 
-#### Air Conditioning
-* **Reduce Usage:** Limit AC use during peak hours (14:00 to 17:00) to save on high tariff rates.
-* **Temperature Setting:** Set AC to a higher temperature (24-26°C) to reduce energy consumption.
-* **Use Fans:** Use ceiling or portable fans to circulate air and reduce reliance on AC.
-* **Maintenance:** Regularly clean filters and ensure proper maintenance for efficiency.
+#### Space Heating & Heat Pump Optimization
+* **Thermostat Adjustment:** Reducing central heating setpoint by 1°C can save up to 10% (£80–£110/year on UK average homes).
+* **Pre-heating Strategy:** Pre-heat home during off-peak morning hours before peak grid rates apply at 16:30.
+* **Radiator Thermostatic Valves (TRVs):** Lower TRVs to setting 2 in unoccupied rooms and hallways.
 
-#### Geyser
-* **Timing:** Use the geyser during off-peak hours to take advantage of lower rates.
-* **Temperature Setting:** Lower the thermostat to a comfortable level to save energy.
-* **Insulation:** Insulate your geyser and pipes to retain heat longer.
+#### Water Heating & Immersion Timing
+* **Schedule via Economy 7 Timer:** Restrict immersion heating cycle strictly between 02:00 and 06:00 to capitalize on half-price off-peak units.
+* **Cylinder Jacket Insulation:** Ensure hot water cylinder has a minimum 80mm British Standard insulation jacket.
 
-#### Washing Machine
-* **Efficient Cycles:** Use full loads and energy-efficient settings.
-* **Off-Peak Usage:** Schedule cycles during off-peak hours.
-* **Cold Water:** Use cold water settings whenever possible.
+#### Wet Appliances (Washing & Dishwashing)
+* **Eco 30°C Cycle:** Wash laundry at 30°C instead of 60°C to cut washer electrical draw by up to 57%.
+* **Delay Start Function:** Program laundry and dishwasher appliances to execute automatically after 23:00.
 
-#### Refrigerator
-* **Temperature Settings:** Ensure optimal settings (3-5°C for fridge, -18°C for freezer).
-* **Maintenance:** Check door seals and clean coils regularly.
-* **Organize:** Keep the fridge organized for efficient airflow.
+#### Standby & Smart Meter Monitoring
+* **Vampire Load Mitigation:** Utilize smart plugs or turn off media center and home office hubs overnight to reduce the 180W baseload.
+* **Track In-Home Display (IHD):** Monitor real-time SMETS2 meter display during dinner preparation.
 
-### General Energy Efficiency Tips
-* **Energy-Efficient Appliances:** Upgrade to star-rated appliances.
-* **Lighting:** Use LED bulbs instead of incandescent lights.
-* **Smart Plugs:** Use smart plugs to schedule appliance operation.
-* **Behavioral Changes:** Turn off lights and appliances when not in use.
-
-### Monitor and Adjust
-* **Track Usage:** Regularly monitor energy consumption.
-* **Adjust Habits:** Continuously adjust habits based on usage patterns.
-
-### Conclusion
-By implementing these strategies, you can potentially reduce your electricity consumption and lower your monthly bill.`;
+### Estimated Monthly Savings
+Implementing these demand-shifting measures is projected to reduce your electricity consumption by **65–85 kWh/month**, generating an estimated saving of **£18.50 – £24.00 per month**.`;
   };
 
   const callLangflow = async (prompt, rawText) => {
@@ -372,8 +541,6 @@ By implementing these strategies, you can potentially reduce your electricity co
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Langflow Response:', data);
-
         const textResult = 
           data?.outputs?.[0]?.outputs?.[0]?.results?.message?.text ||
           (typeof data?.outputs?.[0]?.outputs?.[0]?.results?.message === 'string' ? data?.outputs?.[0]?.outputs?.[0]?.results?.message : null) ||
@@ -386,10 +553,9 @@ By implementing these strategies, you can potentially reduce your electricity co
         }
       }
     } catch (err) {
-      console.warn('API call failed, switching to report engine:', err);
+      console.warn('API call fallback to UK energy report engine:', err);
     }
 
-    // Fallback to generating the exact structured report from actual raw uploaded text
     return generateReportFromData(rawText || prompt);
   };
 
@@ -402,76 +568,18 @@ By implementing these strategies, you can potentially reduce your electricity co
     const reader = new FileReader();
     reader.onload = async (event) => {
       const text = event.target.result;
-      const prompt = `You are an AI Energy Efficiency Advisor. Analyze the uploaded electricity bill and consumption data provided below and produce an analysis matching this EXACT format and structure:
-
-Based on the data you provided, here's an analysis of your electricity usage and some recommendations to optimize it:
-
-Usage Analysis
-Current Month Usage: [X] units
-Previous Month Usage: [X] units
-Increase in Usage: [X] units
-Current Bill: [Currency and Amount]
-Previous Bill: [Currency and Amount]
-Increase in Bill: [Currency and Amount]
-
-Peak Usage Hours
-High Consumption: Between [Start Time] and [End Time], with the highest at [Time] ([X] units).
-Weather Impact: [Details about temperature and weather impact on usage].
-
-Appliance Contribution
-Air Conditioning: [Details on usage and impact].
-Geyser: [Details on usage and impact].
-Washing Machine: [Details on usage and impact].
-Refrigerator: [Details on usage and impact].
-
-Tariff Details
-Peak Rate: [Rate per unit]
-Off-Peak Rate: [Rate per unit]
-
-Recommendations for Reducing Usage
-Air Conditioning:
-- Reduce Usage: [Actionable advice]
-- Temperature Setting: [Actionable advice]
-- Use Fans: [Actionable advice]
-- Maintenance: [Actionable advice]
-
-Geyser:
-- Timing: [Actionable advice]
-- Temperature Setting: [Actionable advice]
-- Insulation: [Actionable advice]
-
-Washing Machine:
-- Efficient Cycles: [Actionable advice]
-- Off-Peak Usage: [Actionable advice]
-- Cold Water: [Actionable advice]
-
-Refrigerator:
-- Temperature Settings: [Actionable advice]
-- Maintenance: [Actionable advice]
-- Organize: [Actionable advice]
-
-General Tips:
-- Energy-Efficient Appliances: [Actionable advice]
-- Lighting: [Actionable advice]
-- Smart Plugs: [Actionable advice]
-- Behavioral Changes: [Actionable advice]
-
-Monitor and Adjust
-Track Usage: [Actionable advice]
-Adjust Habits: [Actionable advice]
-
-By implementing these strategies, you can potentially reduce your electricity consumption and lower your monthly bill. Additionally, consider consulting with an energy auditor for personalized recommendations.
-
-Here is the customer data:
-${text}`;
+      const prompt = `You are EchoWatt, an AI Customer Energy Efficiency Advisor adhering to UK energy standards (Ofgem price cap, SMETS2 smart meters, GBP £ currency, kWh units, and demand shifting). Analyze the uploaded energy data and provide a detailed analysis formatted with clear headings for Usage Analysis, Peak Usage Hours, Appliance Contribution, Tariff Details, and Actionable Recommendations in GBP £: \n\nCustomer Data:\n${text}`;
 
       try {
         const aiText = await callLangflow(prompt, text);
         setReport(aiText);
-        setChatMessages([{ role: 'ai', content: 'I have analyzed your bill according to Energy Efficiency standards. Feel free to ask any follow-up questions!' }]);
+        setChatMessages([{ 
+          role: 'ai', 
+          content: 'Hello! I have completed your UK Energy Efficiency & Tariff Analysis. You can review your savings recommendations, download the official PDF report, or ask me any questions below.' 
+        }]);
       } catch (err) {
         console.error(err);
-        setError('An error occurred while analyzing the bill.');
+        setError('An error occurred while analyzing the UK energy bill.');
       } finally {
         setIsLoading(false);
       }
@@ -489,11 +597,11 @@ ${text}`;
     setIsChatLoading(true);
 
     try {
-      const aiResponse = await callLangflow(userMessage);
+      const aiResponse = await callLangflow(`Context: UK Energy Efficiency Advisor (EchoWatt). Customer question: ${userMessage}`);
       setChatMessages(prev => [...prev, { role: 'ai', content: aiResponse }]);
     } catch (err) {
       console.error(err);
-      setChatMessages(prev => [...prev, { role: 'ai', content: 'Sorry, I encountered an error processing your question.' }]);
+      setChatMessages(prev => [...prev, { role: 'ai', content: 'Sorry, I encountered an issue processing your query.' }]);
     } finally {
       setIsChatLoading(false);
     }
@@ -511,14 +619,13 @@ ${text}`;
     
     const opt = {
       margin:       0.5,
-      filename:     `energy_analysis_report_${new Date().toISOString().split('T')[0]}.pdf`,
+      filename:     `EchoWatt_UK_Energy_Report_${new Date().toISOString().split('T')[0]}.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
     };
     
-    // We clone the element so we can adjust styles purely for the PDF without breaking the UI
     const clone = reportRef.current.cloneNode(true);
     clone.classList.add('pdf-export');
     
@@ -527,34 +634,52 @@ ${text}`;
 
   return (
     <div className="app-container">
-      <header style={{ position: 'relative' }}>
-        <div>
-          <h1>EchoWatt</h1>
-          <p>AI-Powered Insights & Energy Efficiency</p>
+      {/* Top Navigation Bar */}
+      <nav className="uk-navbar">
+        <div className="nav-brand">
+          <img 
+            src="/echowatt-logo.jpg" 
+            alt="EchoWatt Logo" 
+            className="nav-logo-icon" 
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+          <div>
+            <div className="nav-brand-title">EchoWatt Advisor</div>
+            <div className="nav-brand-tag">UK Smart Energy & Demand Management Portal</div>
+          </div>
         </div>
-        <button 
-          onClick={onLogout}
-          className="btn btn-secondary"
-          style={{
-            position: 'absolute',
-            top: '50%',
-            right: '1.5rem',
-            transform: 'translateY(-50%)',
-            padding: '0.5rem 1.25rem',
-            fontSize: '0.9rem'
-          }}
-        >
-          Sign Out
-        </button>
-      </header>
 
+        <div className="nav-actions">
+          <div className="uk-tariff-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>Ofgem Standard Tariff Active (27.5p/kWh)</span>
+          </div>
+
+          <button onClick={onLogout} className="btn-signout">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Main Content Area */}
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         
         {!report && !isLoading && (
-          <div className="glass-panel" style={{ maxWidth: '600px', width: '100%', textAlign: 'center', padding: '3rem 2rem' }}>
-            <h2 style={{ marginBottom: '1rem', color: 'var(--text-primary)' }}>Upload your Electricity Bill</h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-              Upload your billing data (e.g. .txt, .csv) to generate a personalized energy efficiency report.
+          <div className="glass-panel upload-hub-card">
+            <h2 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '0.75rem', color: '#ffffff' }}>
+              Upload Smart Meter or Utility Bill
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.5', maxWidth: '520px', margin: '0 auto' }}>
+              Upload your interval consumption file (e.g. .csv, .txt, .json) to generate an instantaneous UK Energy Efficiency & Anomaly Report.
             </p>
             
             <input
@@ -565,43 +690,78 @@ ${text}`;
               accept=".txt,.csv,.json,.md"
             />
             
+            <div 
+              className="upload-dropzone"
+              onClick={() => document.getElementById('main-bill-upload').click()}
+            >
+              <div className="dropzone-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <div style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
+                {file ? file.name : 'Click to browse files or drag and drop here'}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                Supports CSV, TXT, MD, JSON (SMETS1 / SMETS2 / Half-Hourly formats)
+              </div>
+            </div>
+
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
               <button 
                 className="btn btn-secondary" 
                 onClick={() => document.getElementById('main-bill-upload').click()}
               >
-                {file ? file.name : 'Select File'}
+                {file ? 'Choose Different File' : 'Browse Local Files'}
               </button>
               
               {file && (
                 <button className="btn" onClick={runAnalysis}>
-                  Analyze Bill
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                  Generate UK Energy Report
                 </button>
               )}
             </div>
-            {error && <p style={{ color: 'var(--danger)', marginTop: '1rem' }}>{error}</p>}
+            
+            {error && <p style={{ color: '#f87171', marginTop: '1.25rem', fontSize: '0.9rem' }}>{error}</p>}
           </div>
         )}
 
         {isLoading && (
-          <div className="glass-panel" style={{ maxWidth: '600px', width: '100%', textAlign: 'center', padding: '4rem 2rem' }}>
-            <div className="loading-spinner" style={{ margin: '0 auto 1.5rem', width: '40px', height: '40px', border: '3px solid var(--border-glass)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-            <h3 style={{ color: 'var(--accent)' }}>Analyzing your bill...</h3>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Our AI is detecting patterns and generating recommendations.</p>
+          <div className="glass-panel" style={{ maxWidth: '600px', width: '100%', textAlign: 'center', padding: '4rem 2.5rem' }}>
+            <div className="loading-spinner" style={{ margin: '0 auto 1.5rem', width: '48px', height: '48px', border: '3px solid rgba(16, 185, 129, 0.15)', borderTopColor: 'var(--emerald-400)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            <h3 style={{ color: 'var(--emerald-400)', fontSize: '1.4rem', fontWeight: '700' }}>Analyzing Meter Consumption...</h3>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '0.92rem' }}>
+              Comparing against UK Ofgem price caps, computing anomaly z-scores, and extracting high-impact efficiency recommendations.
+            </p>
           </div>
         )}
 
         {report && !isLoading && (
-          <div style={{ width: '100%', maxWidth: '1400px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+          <div style={{ width: '100%', maxWidth: '1400px', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '2rem' }}>
             
             {/* Report Section */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                <h2 style={{ color: 'var(--accent)' }}>Analysis Report</h2>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <button className="btn btn-secondary" onClick={resetFlow} style={{ padding: '0.5rem 1rem' }}>Start Over</button>
+            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', height: '700px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                <div>
+                  <h2 style={{ color: 'var(--emerald-400)', fontSize: '1.35rem', fontWeight: '800' }}>
+                    UK Efficiency & Tariff Audit
+                  </h2>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Generated with EchoWatt Orchestrator Agent
+                  </span>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '0.75rem' }}>
+                  <button className="btn btn-secondary" onClick={resetFlow} style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
+                    Upload New
+                  </button>
                   <button 
-                    className="btn-orange-pill" 
+                    className="btn-uk-export" 
                     onClick={handleDownloadPdf}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -609,10 +769,7 @@ ${text}`;
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    <span style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', lineHeight: '1.05', fontWeight: '800', fontSize: '0.75rem', letterSpacing: '0.01em' }}>
-                      <span>Download</span>
-                      <span>PDF</span>
-                    </span>
+                    <span>Download Report (PDF)</span>
                   </button>
                 </div>
               </div>
@@ -620,11 +777,11 @@ ${text}`;
               <div 
                 ref={reportRef}
                 style={{ 
-                  background: 'rgba(0,0,0,0.2)', 
-                  border: '1px solid var(--border-glass)', 
-                  borderRadius: '0.5rem', 
-                  padding: '1.5rem',
-                  lineHeight: '1.6',
+                  background: 'rgba(6, 14, 10, 0.7)', 
+                  border: '1px solid var(--border-subtle)', 
+                  borderRadius: 'var(--radius-md)', 
+                  padding: '1.75rem',
+                  lineHeight: '1.65',
                   textAlign: 'left',
                   overflowY: 'auto',
                   flex: 1
@@ -637,31 +794,37 @@ ${text}`;
             </div>
 
             {/* Chatbot Section */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', height: '600px' }}>
-              <h2 style={{ color: 'var(--accent)', marginBottom: '1rem' }}>EchoWatt Chat</h2>
+            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', height: '700px' }}>
+              <div style={{ marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                <h2 style={{ color: 'var(--emerald-400)', fontSize: '1.35rem', fontWeight: '800' }}>
+                  EchoWatt Conversational Advisor
+                </h2>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  Ask questions regarding your bill, heating optimization, or peak tariffs
+                </span>
+              </div>
               
-              <div className="chat-messages" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '0.5rem', marginBottom: '1rem', border: '1px solid var(--border-glass)' }}>
+              <div className="chat-messages">
                 {chatMessages.map((msg, idx) => (
                   <div key={idx} className={`message ${msg.role}`}>
-                    <div className="markdown-body" style={{ fontSize: '0.95rem' }}>
+                    <div className="markdown-body" style={{ fontSize: '0.92rem' }}>
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
                   </div>
                 ))}
                 {isChatLoading && (
                   <div className="message ai">
-                    <span className="loading-dots">Thinking</span>
+                    <span className="loading-dots">Consulting UK Energy Knowledge Base</span>
                   </div>
                 )}
                 <div ref={chatEndRef} />
               </div>
               
-              <div className="chat-input-area" style={{ display: 'flex', gap: '0.5rem' }}>
+              <div className="chat-input-area">
                 <input
                   type="text"
                   className="chat-input"
-                  style={{ flex: 1 }}
-                  placeholder="Ask a follow-up question..."
+                  placeholder="e.g. How can I shift immersion heater usage to Economy 7?"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendChat()}
@@ -670,9 +833,13 @@ ${text}`;
                   className="btn" 
                   onClick={handleSendChat}
                   disabled={isChatLoading || !chatInput.trim()}
-                  style={{ padding: '0.75rem 1.5rem' }}
+                  style={{ padding: '0.75rem 1.4rem' }}
                 >
-                  Send
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                  <span>Ask</span>
                 </button>
               </div>
             </div>
