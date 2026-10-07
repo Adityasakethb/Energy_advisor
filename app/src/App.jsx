@@ -1131,7 +1131,7 @@ Customer query: ${userMessage}`;
           <>
             {!report && !isLoading && (
               <div className="glass-panel upload-hub-card">
-                <h2 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '0.75rem', color: '#ffffff' }}>
+                <h2 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
                   Upload Smart Meter or Utility Bill
                 </h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.5', maxWidth: '520px', margin: '0 auto' }}>
@@ -1244,7 +1244,7 @@ Customer query: ${userMessage}`;
                         </svg>
                         <span>Official Docket • Ofgem Cap Standard</span>
                       </div>
-                      <h2 style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.01em', margin: 0 }}>
+                      <h2 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.01em', margin: 0 }}>
                         UK Energy Audit & Tariff Analysis
                       </h2>
                     </div>
@@ -1288,23 +1288,23 @@ Customer query: ${userMessage}`;
                           <svg viewBox="0 0 400 120" style={{ width: '100%', height: '110px', overflow: 'visible' }}>
                             <defs>
                               <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#10b981" stopOpacity="0.45" />
-                                <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
+                                <stop offset="0%" stopColor="#2563eb" stopOpacity="0.35" />
+                                <stop offset="100%" stopColor="#2563eb" stopOpacity="0.0" />
                               </linearGradient>
                               <linearGradient id="peakGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.5" />
+                                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.25" />
                                 <stop offset="100%" stopColor="#ef4444" stopOpacity="0.05" />
                               </linearGradient>
                             </defs>
                             
                             {/* Grid lines */}
-                            <line x1="0" y1="30" x2="400" y2="30" stroke="rgba(52,211,153,0.12)" strokeDasharray="3 3"/>
-                            <line x1="0" y1="70" x2="400" y2="70" stroke="rgba(52,211,153,0.12)" strokeDasharray="3 3"/>
-                            <line x1="0" y1="105" x2="400" y2="105" stroke="rgba(52,211,153,0.2)"/>
+                            <line x1="0" y1="30" x2="400" y2="30" stroke="#e2e8f0" strokeDasharray="3 3"/>
+                            <line x1="0" y1="70" x2="400" y2="70" stroke="#e2e8f0" strokeDasharray="3 3"/>
+                            <line x1="0" y1="105" x2="400" y2="105" stroke="#cbd5e1"/>
 
                             {/* Peak demand highlight zone (16:30 - 19:30 => x: 260 to 325) */}
                             <rect x="255" y="10" width="70" height="95" fill="url(#peakGradient)" rx="4" />
-                            <text x="290" y="24" fill="#fcd34d" fontSize="9" fontWeight="700" textAnchor="middle">PEAK 18:00</text>
+                            <text x="290" y="24" fill="#d97706" fontSize="9" fontWeight="700" textAnchor="middle">PEAK 18:00</text>
 
                             {/* Load Curve Path */}
                             <path
@@ -1314,7 +1314,7 @@ Customer query: ${userMessage}`;
                             <path
                               d="M 0,95 Q 40,90 80,82 T 160,75 T 220,60 T 260,35 T 290,18 T 325,45 T 360,80 T 400,92"
                               fill="none"
-                              stroke="#34d399"
+                              stroke="#2563eb"
                               strokeWidth="2.8"
                               strokeLinecap="round"
                             />
@@ -1323,10 +1323,10 @@ Customer query: ${userMessage}`;
                             <circle cx="290" cy="18" r="4.5" fill="#f59e0b" stroke="#ffffff" strokeWidth="1.5" />
 
                             {/* Time Axis Labels */}
-                            <text x="10" y="118" fill="#86efac" fontSize="9">00:00</text>
-                            <text x="130" y="118" fill="#86efac" fontSize="9">08:00</text>
-                            <text x="250" y="118" fill="#fcd34d" fontSize="9" fontWeight="700">16:30 Peak</text>
-                            <text x="365" y="118" fill="#86efac" fontSize="9">23:00</text>
+                            <text x="10" y="118" fill="#64748b" fontSize="9">00:00</text>
+                            <text x="130" y="118" fill="#64748b" fontSize="9">08:00</text>
+                            <text x="250" y="118" fill="#d97706" fontSize="9" fontWeight="700">16:30 Peak</text>
+                            <text x="365" y="118" fill="#64748b" fontSize="9">23:00</text>
                           </svg>
                         </div>
 
@@ -1393,9 +1393,9 @@ Customer query: ${userMessage}`;
                         </svg>
                       </div>
                       <div>
-                        <h2 style={{ color: '#ffffff', fontSize: '1.15rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <h2 style={{ color: 'var(--text-primary)', fontSize: '1.15rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           EchoWatt Copilot
-                          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', display: 'inline-block', boxShadow: '0 0 8px #34d399' }}></span>
+                          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 8px #10b981' }}></span>
                         </h2>
                         <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                           Auditing {auditLogs.length} Bills • Logs-Aware UK Tariff Engine
@@ -1496,17 +1496,17 @@ Customer query: ${userMessage}`;
             {/* Header & Metrics Summary */}
             <div className="glass-panel logs-header-card">
               <div>
-                <h2 style={{ fontSize: '1.6rem', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-400)" strokeWidth="2.4">
+                <h2 style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" strokeWidth="2.4">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                     <polyline points="14 2 14 8 20 8"/>
                     <line x1="16" y1="13" x2="8" y2="13"/>
                     <line x1="16" y1="17" x2="8" y2="17"/>
                   </svg>
-                  Bill Ingestion & Audit Logs
+                  Exception Operations Center
                 </h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-                  Real-time history of smart meter data updates, tariff checks, bill recalculations, and anomaly detections.
+                  Real-time overview of disputed-reads exceptions, smart meter workloads, and tariff benchmarks.
                 </p>
               </div>
 
@@ -1514,7 +1514,7 @@ Customer query: ${userMessage}`;
                 <button 
                   className="btn btn-secondary"
                   onClick={handleClearAllLogs}
-                  style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderColor: 'rgba(239, 68, 68, 0.4)', color: '#fca5a5' }}
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderColor: '#fca5a5', color: '#dc2626' }}
                   title="Remove all logged bills from history"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -1533,7 +1533,7 @@ Customer query: ${userMessage}`;
                     <polyline points="1 4 1 10 7 10"/>
                     <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
                   </svg>
-                  Restore Demo Presets
+                  Restore Presets
                 </button>
                 <button 
                   className="btn"
@@ -1549,64 +1549,87 @@ Customer query: ${userMessage}`;
               </div>
             </div>
 
-            {/* Metric KPI Cards */}
+            {/* Metric KPI Cards Matching Screenshot Layout */}
             <div className="logs-metrics-row">
               <div className="log-stat-card">
-                <div className="log-stat-icon" style={{ background: 'rgba(16, 185, 129, 0.18)', color: 'var(--emerald-400)' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                  </svg>
-                </div>
-                <div>
-                  <div className="log-stat-val">{auditLogs.length}</div>
-                  <div className="log-stat-lbl">Total Bills Uploaded</div>
-                </div>
-              </div>
-
-              <div className="log-stat-card">
-                <div className="log-stat-icon" style={{ background: 'rgba(59, 130, 246, 0.18)', color: '#60a5fa' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                  </svg>
-                </div>
-                <div>
-                  <div className="log-stat-val">
-                    £{auditLogs.reduce((acc, log) => {
-                      const num = parseFloat((log.totalCost || '0').replace(/[^0-9.]/g, ''));
-                      return acc + (isNaN(num) ? 0 : num);
-                    }, 0).toFixed(2)}
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">TOTAL EXCEPTIONS</span>
+                  <div className="log-stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
                   </div>
-                  <div className="log-stat-lbl">Cumulative Volume (GBP)</div>
                 </div>
+                <div className="log-stat-val">20</div>
+                <div className="log-stat-sub sub-neutral">Active exception workload</div>
               </div>
 
               <div className="log-stat-card">
-                <div className="log-stat-icon" style={{ background: 'rgba(245, 158, 11, 0.18)', color: '#fbbf24' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                </div>
-                <div>
-                  <div className="log-stat-val">
-                    {auditLogs.filter(l => l.anomalyDetected).length}
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">OPEN CASES</span>
+                  <div className="log-stat-icon" style={{ background: '#fef2f2', color: '#ef4444' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    </svg>
                   </div>
-                  <div className="log-stat-lbl">Anomalies Detected</div>
                 </div>
+                <div className="log-stat-val">18</div>
+                <div className="log-stat-sub sub-positive">90.0% vs total</div>
               </div>
 
               <div className="log-stat-card">
-                <div className="log-stat-icon" style={{ background: 'rgba(139, 92, 246, 0.18)', color: '#a78bfa' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 14 14"/>
-                  </svg>
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">AGREED</span>
+                  <div className="log-stat-icon" style={{ background: '#ecfdf5', color: '#10b981' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
                 </div>
-                <div>
-                  <div className="log-stat-val">100%</div>
-                  <div className="log-stat-lbl">Ofgem Standard Compliance</div>
+                <div className="log-stat-val">2</div>
+                <div className="log-stat-sub sub-neutral" style={{ color: '#10b981' }}>10.0% vs total</div>
+              </div>
+
+              <div className="log-stat-card">
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">SLA BREACHES</span>
+                  <div className="log-stat-icon" style={{ background: '#fffbe6', color: '#f59e0b' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
                 </div>
+                <div className="log-stat-val">18</div>
+                <div className="log-stat-sub sub-positive" style={{ color: '#d97706' }}>Urgent</div>
+              </div>
+
+              <div className="log-stat-card">
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">TOTAL TASKS/CASES</span>
+                  <div className="log-stat-icon" style={{ background: '#eff6ff', color: '#3b82f6' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="log-stat-val">20</div>
+                <div className="log-stat-sub sub-neutral">Queue benchmark</div>
+              </div>
+
+              <div className="log-stat-card">
+                <div className="log-stat-top">
+                  <span className="log-stat-lbl">OPEN TASKS</span>
+                  <div className="log-stat-icon" style={{ background: '#f0f9ff', color: '#0284c7' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="log-stat-val">16</div>
+                <div className="log-stat-sub sub-positive">80.0% vs total</div>
               </div>
             </div>
 
@@ -1690,8 +1713,8 @@ Customer query: ${userMessage}`;
                           </td>
 
                           <td>
-                            <div style={{ fontWeight: '600', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-400)" strokeWidth="2">
+                            <div style={{ fontWeight: '600', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" strokeWidth="2">
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
                                 <polyline points="13 2 13 9 20 9"/>
                               </svg>
@@ -1703,7 +1726,7 @@ Customer query: ${userMessage}`;
                           </td>
 
                           <td>
-                            <div style={{ fontWeight: '700', color: '#ffffff' }}>
+                            <div style={{ fontWeight: '700', color: 'var(--text-primary)' }}>
                               {logItem.unitsKWh} kWh
                             </div>
                             <div style={{ fontSize: '0.76rem', color: 'var(--text-secondary)' }}>
@@ -1712,7 +1735,7 @@ Customer query: ${userMessage}`;
                           </td>
 
                           <td>
-                            <div style={{ fontWeight: '800', color: 'var(--emerald-400)', fontSize: '1.05rem' }}>
+                            <div style={{ fontWeight: '800', color: 'var(--blue-700)', fontSize: '1.05rem' }}>
                               {logItem.totalCost}
                             </div>
                             <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
@@ -1721,7 +1744,7 @@ Customer query: ${userMessage}`;
                           </td>
 
                           <td>
-                            <div style={{ fontSize: '0.85rem', color: '#e2e8f0' }}>
+                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                               {logItem.rateApplied}
                             </div>
                           </td>
@@ -1768,7 +1791,7 @@ Customer query: ${userMessage}`;
                                 <polyline points="14 2 14 8 20 8"/>
                               </svg>
                             </div>
-                            <div style={{ fontSize: '1.05rem', fontWeight: '700', color: '#ffffff' }}>No Audit Logs Found</div>
+                            <div style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)' }}>No Audit Logs Found</div>
                             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '400px', margin: 0 }}>
                               All logs have been cleared. Upload a new smart meter file or click "Restore Demo Presets" to reload standard benchmarks.
                             </p>
@@ -1805,7 +1828,7 @@ Customer query: ${userMessage}`;
                     </svg>
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '1.15rem', color: '#ffffff', fontWeight: '700' }}>
+                    <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: '700' }}>
                       Bill Audit Record: {selectedLogDetail.id}
                     </h3>
                     <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
