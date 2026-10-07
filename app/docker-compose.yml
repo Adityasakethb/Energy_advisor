@@ -5,5 +5,5 @@ services:
       dockerfile: Dockerfile
     container_name: echowatt-app
     ports:
-      - "80:80"
+      - "8104:80"
     restart: always
