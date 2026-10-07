@@ -50,7 +50,7 @@ deploy:
       --document-name "AWS-RunShellScript"
       --parameters '{"commands":[
       "sudo apt-get install -y unzip || sudo yum install -y unzip",
-      "/usr/local/bin/aws s3 cp s3://datasynaize/source-code/usecase-echowatt.zip /tmp/policy-endorsement-and-mid-term-adjustment-processing-usecase.zip",
+      "/usr/local/bin/aws s3 cp s3://datasynaize/source-code/usecase-echowatt.zip /tmp/usecase-echowatt.zip",
       "mkdir -p /home/ubuntu/use-cases/usecase-echowatt",
       "unzip -o /tmp/usecase-echowatt.zip -d /home/ubuntu/use-cases/usecase-echowatt",
       "cd /home/ubuntu/use-cases/usecase-echowatt && ls",
