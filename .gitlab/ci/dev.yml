@@ -1,0 +1,72 @@
+deploy:
+  stage: deploy
+  environment: $CI_COMMIT_BRANCH
+
+  tags:
+    - self-hosted
+
+  image:
+    name: amazon/aws-cli:2.17.0
+    entrypoint: [""]
+
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://sts.amazonaws.com
+
+  before_script:
+    - yum install -y zip || (echo "not root, trying alternate" && zip --version || (apt-get update && apt-get install -y zip))
+
+  script:
+    - echo $GITLAB_OIDC_TOKEN | cut -d. -f2 | base64 -d 2>/dev/null | python3 -m json.tool || true
+
+    - >
+      CREDS=$(aws sts assume-role-with-web-identity
+      --role-arn "$AWS_ROLE_ARN"
+      --role-session-name "gitlab-deploy-$CI_PIPELINE_ID"
+      --web-identity-token "$GITLAB_OIDC_TOKEN"
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text)
+
+    - |
+      if [ -z "$CREDS" ]; then
+        echo "assume-role-with-web-identity failed"
+        exit 1
+      fi
+
+    - export AWS_ACCESS_KEY_ID=$(echo $CREDS | awk '{print $1}')
+    - export AWS_SECRET_ACCESS_KEY=$(echo $CREDS | awk '{print $2}')
+    - export AWS_SESSION_TOKEN=$(echo $CREDS | awk '{print $3}')
+
+    - aws sts get-caller-identity
+
+    - zip -r usecase-echowatt.zip . -x ".git/*" -x "node_modules/*"
+
+    - aws s3 cp usecase-echowatt.zip s3://datasynaize/source-code/usecase-echowatt.zip
+
+    - >
+      COMMAND_ID=$(aws ssm send-command
+      --instance-ids "$EC2_INSTANCE_ID"
+      --document-name "AWS-RunShellScript"
+      --parameters '{"commands":[
+      "sudo apt-get install -y unzip || sudo yum install -y unzip",
+      "/usr/local/bin/aws s3 cp s3://datasynaize/source-code/usecase-echowatt.zip /tmp/policy-endorsement-and-mid-term-adjustment-processing-usecase.zip",
+      "mkdir -p /home/ubuntu/use-cases/usecase-echowatt",
+      "unzip -o /tmp/usecase-echowatt.zip -d /home/ubuntu/use-cases/usecase-echowatt",
+      "cd /home/ubuntu/use-cases/usecase-echowatt && ls",
+      "rm -f /tmp/usecase-echowatt.zip"
+      ]}'
+      --query 'Command.CommandId' --output text)
+
+    - aws ssm wait command-executed --command-id "$COMMAND_ID" --instance-id "$EC2_INSTANCE_ID"
+
+    - |
+      STATUS=$(aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$EC2_INSTANCE_ID" --query 'Status' --output text)
+      aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$EC2_INSTANCE_ID"
+      if [ "$STATUS" != "Success" ]; then
+        echo "SSM command failed with status: $STATUS"
+        exit 1
+      fi
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
