@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import html2pdf from 'html2pdf.js';
+import { fetchAppSecrets } from './services/secretsService.js';
 import './index.css';
 
 function App() {
@@ -873,32 +874,51 @@ Implementing all of the above demand-shifting and efficiency measures across the
 
   const callLangflow = async (prompt, rawText) => {
     try {
-      const apiKey = import.meta.env.VITE_LANGFLOW_API_KEY || 'sk-d70sFDXh5icsT5fbsN6-iSdxBOAYMTYux3aW9hofn74';
-      const apiUrl = import.meta.env.VITE_LANGFLOW_API_URL || 'https://demo.appdesign.mlangles.ai/api/v1/run/9ffdac18-2f7a-48d9-a724-d576d22ac675?stream=false';
-      const response = await fetch(apiUrl, {
+      // 1. First attempt secure server execution endpoint (executes using AWS Secrets Manager 'usecase-echowatt' server-side)
+      const proxyResponse = await fetch('/echowatt/api/run', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey
-        },
-        body: JSON.stringify({
-          input_value: prompt,
-          output_type: "chat",
-          input_type: "chat"
-        })
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, rawText })
+      }).catch(() => null);
 
-      if (response.ok) {
-        const data = await response.json();
-        const textResult = 
-          data?.outputs?.[0]?.outputs?.[0]?.results?.message?.text ||
-          (typeof data?.outputs?.[0]?.outputs?.[0]?.results?.message === 'string' ? data?.outputs?.[0]?.outputs?.[0]?.results?.message : null) ||
-          data?.outputs?.[0]?.outputs?.[0]?.artifacts?.text ||
-          data?.outputs?.[0]?.outputs?.[0]?.messages?.[0]?.message ||
-          data?.outputs?.[0]?.outputs?.[0]?.messages?.[0]?.text;
+      if (proxyResponse && proxyResponse.ok) {
+        const proxyData = await proxyResponse.json();
+        if (proxyData?.result) {
+          return convertAllCurrenciesToPounds(proxyData.result);
+        }
+      }
 
-        if (textResult) {
-          return convertAllCurrenciesToPounds(textResult);
+      // 2. Alternatively, retrieve configuration dynamically from secrets service
+      const secrets = await fetchAppSecrets();
+      const apiUrl = secrets.apiUrl;
+      const apiKey = secrets.apiKey;
+
+      if (apiUrl && apiKey) {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey
+          },
+          body: JSON.stringify({
+            input_value: prompt,
+            output_type: "chat",
+            input_type: "chat"
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const textResult = 
+            data?.outputs?.[0]?.outputs?.[0]?.results?.message?.text ||
+            (typeof data?.outputs?.[0]?.outputs?.[0]?.results?.message === 'string' ? data?.outputs?.[0]?.outputs?.[0]?.results?.message : null) ||
+            data?.outputs?.[0]?.outputs?.[0]?.artifacts?.text ||
+            data?.outputs?.[0]?.outputs?.[0]?.messages?.[0]?.message ||
+            data?.outputs?.[0]?.outputs?.[0]?.messages?.[0]?.text;
+
+          if (textResult) {
+            return convertAllCurrenciesToPounds(textResult);
+          }
         }
       }
     } catch (err) {

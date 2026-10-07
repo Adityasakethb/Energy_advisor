@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for EchoWatt React App
+# Stage 1: Build Frontend
 FROM node:20-alpine AS build
 
 WORKDIR /app
@@ -9,11 +9,21 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine AS runner
+# Stage 2: Production Server with AWS Secrets Manager integration
+FROM node:20-alpine AS runner
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html/echowatt
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=8104
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY --from=build /app/dist ./dist
+COPY scripts ./scripts
+COPY server.js ./server.js
 
 EXPOSE 8104
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
