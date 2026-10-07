@@ -874,7 +874,8 @@ Implementing all of the above demand-shifting and efficiency measures across the
   const callLangflow = async (prompt, rawText) => {
     try {
       const apiKey = import.meta.env.VITE_LANGFLOW_API_KEY || 'sk-d70sFDXh5icsT5fbsN6-iSdxBOAYMTYux3aW9hofn74';
-      const response = await fetch('https://demo.appdesign.mlangles.ai/api/v1/run/9ffdac18-2f7a-48d9-a724-d576d22ac675?stream=false', {
+      const apiUrl = import.meta.env.VITE_LANGFLOW_API_URL || 'https://demo.appdesign.mlangles.ai/api/v1/run/9ffdac18-2f7a-48d9-a724-d576d22ac675?stream=false';
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
