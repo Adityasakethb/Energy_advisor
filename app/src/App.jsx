@@ -874,21 +874,6 @@ Implementing all of the above demand-shifting and efficiency measures across the
 
   const callLangflow = async (prompt, rawText) => {
     try {
-      // 1. First attempt secure server execution endpoint (executes using AWS Secrets Manager 'usecase-echowatt' server-side)
-      const proxyResponse = await fetch('/echowatt/api/run', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, rawText })
-      }).catch(() => null);
-
-      if (proxyResponse && proxyResponse.ok) {
-        const proxyData = await proxyResponse.json();
-        if (proxyData?.result) {
-          return convertAllCurrenciesToPounds(proxyData.result);
-        }
-      }
-
-      // 2. Alternatively, retrieve configuration dynamically from secrets service
       const secrets = await fetchAppSecrets();
       const apiUrl = secrets.apiUrl;
       const apiKey = secrets.apiKey;

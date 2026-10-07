@@ -9,21 +9,22 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Stage 2: Production Server with AWS Secrets Manager integration
-FROM node:20-alpine AS runner
+# Stage 2: Production Nginx Server
+FROM nginx:alpine AS runner
 
-WORKDIR /app
+# Install AWS CLI and jq for AWS Secrets Manager integration
+RUN apk add --no-cache aws-cli jq
 
-ENV NODE_ENV=production
-ENV PORT=8104
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY package*.json ./
-RUN npm ci --omit=dev
+# Copy build artifacts to Nginx document root
+COPY --from=build /app/dist /usr/share/nginx/html/echowatt
 
-COPY --from=build /app/dist ./dist
-COPY scripts ./scripts
-COPY server.js ./server.js
+# Configure startup script to retrieve secrets for 'usecase-echowatt' before Nginx starts
+COPY docker-entrypoint-secrets.sh /docker-entrypoint.d/40-secrets.sh
+RUN chmod +x /docker-entrypoint.d/40-secrets.sh
 
 EXPOSE 8104
 
-CMD ["node", "server.js"]
+CMD ["nginx", "-g", "daemon off;"]

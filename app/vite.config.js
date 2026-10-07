@@ -6,20 +6,17 @@ function secretsDevPlugin() {
   return {
     name: 'secrets-dev-plugin',
     configureServer(server) {
-      server.middlewares.use('/echowatt/api/secrets', async (req, res) => {
+      server.middlewares.use('/echowatt/secrets.json', async (req, res) => {
         try {
           const secrets = await getSecrets();
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({
-            success: true,
-            secrets: {
-              apiUrl: secrets.LANGFLOW_API_URL || secrets.VITE_LANGFLOW_API_URL || secrets.apiUrl || '',
-              apiKey: secrets.LANGFLOW_API_KEY || secrets.VITE_LANGFLOW_API_KEY || secrets.apiKey || ''
-            }
+            LANGFLOW_API_URL: secrets.LANGFLOW_API_URL || secrets.VITE_LANGFLOW_API_URL || secrets.apiUrl || '',
+            LANGFLOW_API_KEY: secrets.LANGFLOW_API_KEY || secrets.VITE_LANGFLOW_API_KEY || secrets.apiKey || ''
           }));
         } catch (err) {
           res.statusCode = 500;
-          res.end(JSON.stringify({ success: false, error: err.message }));
+          res.end(JSON.stringify({ error: err.message }));
         }
       });
     }
