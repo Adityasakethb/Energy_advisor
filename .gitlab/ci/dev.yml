@@ -53,7 +53,9 @@ deploy:
       "/usr/local/bin/aws s3 cp s3://datasynaize/source-code/usecase-echowatt.zip /tmp/usecase-echowatt.zip",
       "mkdir -p /home/ubuntu/use-cases/usecase-echowatt",
       "unzip -o /tmp/usecase-echowatt.zip -d /home/ubuntu/use-cases/usecase-echowatt",
-      "cd /home/ubuntu/use-cases/usecase-echowatt && ls",
+      "cd /home/ubuntu/use-cases/usecase-echowatt",
+      "docker compose down || docker-compose down || true",
+      "docker compose up -d --build || docker-compose up -d --build",
       "rm -f /tmp/usecase-echowatt.zip"
       ]}'
       --query 'Command.CommandId' --output text)
